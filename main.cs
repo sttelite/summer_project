@@ -22,9 +22,10 @@ namespace LanguageRecognition
                 Console.WriteLine("Invalid input. Please enter some text.");
             }
         }
-    }
-}
-/*           // Define language letters
+
+        static string RecognizeLanguage(string inputText)
+        {
+            // Define language-specific letters
             Dictionary<string, string> languageLetters = new Dictionary<string, string>
             {
                 { "English", "abcdefghijklmnopqrstuvwxyz" },
@@ -54,3 +55,18 @@ namespace LanguageRecognition
                 { "Ukrainian", new char[] { 'є', 'ї', 'ґ', 'і', 'ў' } },
                 { "Russian", new char[] { 'ё', 'э', 'ы', 'ъ', 'ь' } }
             };
+
+            // Define language-specific dictionaries of popular words
+            Dictionary<string, string[]> languageDictionaries = new Dictionary<string, string[]>
+            {
+                { "English", new string[] { "the", "and", "is", "of", "in", "to" } },
+                { "French", new string[] { "le", "la", "et", "est", "en", "que" } },
+                { "German", new string[] { "die", "und", "ist", "in", "zu", "es" } },
+                { "Spanish", new string[] { "el", "la", "y", "es", "en", "que" } },
+                { "Ukrainian", new string[] { "і", "не", "це", "на", "за", "до" } },
+                { "Russian", new string[] { "и", "в", "не", "на", "что", "с" } }
+            };        
+        }
+    }
+}
+
