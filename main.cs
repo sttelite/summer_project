@@ -50,10 +50,10 @@ namespace LanguageRecognition
             // Define language-specific characters
             Dictionary<string, char[]> languageCharacters = new Dictionary<string, char[]>
             {
-                { "French", new char[] { 'à', 'â', 'æ', 'ç', 'é', 'è', 'ê', 'ë', 'î', 'ï', 'ô', 'œ', 'ù', 'û', 'ü', 'ÿ' } },
+                { "French", new char[] { 'à', 'â', 'æ', 'ç', 'é', 'è', 'ê', 'ë', 'î', 'ô', 'œ', 'ù', 'û', 'ü', 'ÿ' } },
                 { "Spanish", new char[] { 'á', 'é', 'í', 'ó', 'ú', 'ñ' } },
-                { "Ukrainian", new char[] { 'є', 'ї', 'ґ', 'і', 'ў' } },
-                { "Russian", new char[] { 'ё', 'э', 'ы', 'ъ', 'ь' } }
+                { "Ukrainian", new char[] { 'є', 'ї', 'ґ', 'і'} },
+                { "Russian", new char[] { 'ё', 'э', 'ы', 'ъ' } }
             };
 
             // Define language-specific dictionaries of popular words
