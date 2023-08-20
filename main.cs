@@ -54,10 +54,11 @@ namespace LanguageRecognition
             // Define language-specific characters
             Dictionary<string, char[]> languageCharacters = new Dictionary<string, char[]>
             {
-                { "French", new char[] { 'à', 'â', 'æ', 'ç', 'é', 'è', 'ê', 'ë', 'î', 'ï', 'ô', 'œ', 'ù', 'û', 'ü', 'ÿ' } },
+                { "French", new char[] { 'à', 'â', 'æ', 'ç', 'é', 'è', 'ê', 'ë', 'î', 'ô', 'œ', 'ù', 'û', 'ü', 'ÿ' } },
                 { "Spanish", new char[] { 'á', 'é', 'í', 'ó', 'ú', 'ñ' } },
-                { "Ukrainian", new char[] { 'є', 'ї', 'ґ', 'і', 'ў' } },
-                { "Russian", new char[] { 'ё', 'э', 'ы', 'ъ', 'ь' } }
+                { "Ukrainian", new char[] { 'є', 'ї', 'ґ', 'і' } },
+                { "Russian", new char[] { 'ё', 'э', 'ы', 'ъ' } },
+                { "German", new char[] { 'ä', 'ö', 'ü', 'ß' } }
             };
 
             // Define language-specific dictionaries of popular words
@@ -108,7 +109,7 @@ namespace LanguageRecognition
                     }
                     else if (IsLetterValidForLanguage(character, language, languageCharacters))
                     {
-                        score += definitelyCorrect;
+                        score = definitelyCorrect;
                         return score;
                     }
                 }
@@ -186,7 +187,7 @@ namespace LanguageRecognition
         static bool IsLetterValidForLanguage(char letter, string language, Dictionary<string, char[]> languageCharacters)
         {
             // Check if the letter is valid for the given language
-            return languageCharacters.ContainsKey(language) && languageCharacters[language].Contains(char.ToLower(letter));
+            return languageCharacters.ContainsKey(language) && Array.IndexOf(languageCharacters[language], char.ToLower(letter)) != -1;
         }
     }
 }
