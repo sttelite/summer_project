@@ -33,10 +33,15 @@ namespace LanguageRecognition
             Dictionary<string, string> languageLetters = new Dictionary<string, string>
             {
                 { "English", "abcdefghijklmnopqrstuvwxyz" },
+                
                 { "French", "abcdefghijklmnopqrstuvwxyzàâæçéèêëîïôœùûüÿ" },
+                
                 { "German", "abcdefghijklmnopqrstuvwxyzäöüß" },
+                
                 { "Spanish", "abcdefghijklmnopqrstuvwxyzáéíóúñ" },
+                
                 { "Ukrainian", "абвгдеєжзиіїйклмнопрстуфхцчшщьюя" },
+                
                 { "Russian", "абвгдеёжзийклмнопрстуфхцчшщъыьэюя" }
             };
 
@@ -44,10 +49,15 @@ namespace LanguageRecognition
             Dictionary<string, string[]> languageLetterCombinations = new Dictionary<string, string[]>
             {
                 { "English", new string[] { "th", "he", "an", "in", "er", "on" } },
+                
                 { "French", new string[] { "de", "le", "la", "et", "en", "au" } },
+                
                 { "German", new string[] { "sch", "ie", "ei", "en", "ch", "st" } },
+                
                 { "Spanish", new string[] { "de", "la", "el", "que", "en", "del" } },
+                
                 { "Ukrainian", new string[] { "ін", "не", "пр", "то", "на", "ни" } },
+                
                 { "Russian", new string[] { "ст", "но", "то", "на", "ен", "ов" } }
             };
 
@@ -55,9 +65,13 @@ namespace LanguageRecognition
             Dictionary<string, char[]> languageCharacters = new Dictionary<string, char[]>
             {
                 { "French", new char[] { 'à', 'â', 'æ', 'ç', 'é', 'è', 'ê', 'ë', 'î', 'ô', 'œ', 'ù', 'û', 'ü', 'ÿ' } },
+                
                 { "Spanish", new char[] { 'á', 'é', 'í', 'ó', 'ú', 'ñ' } },
+                
                 { "Ukrainian", new char[] { 'є', 'ї', 'ґ', 'і' } },
+                
                 { "Russian", new char[] { 'ё', 'э', 'ы', 'ъ' } },
+                
                 { "German", new char[] { 'ä', 'ö', 'ü', 'ß' } }
             };
 
@@ -65,10 +79,15 @@ namespace LanguageRecognition
             Dictionary<string, string[]> languageDictionaries = new Dictionary<string, string[]>
             {
                 { "English", new string[] { "the", "and", "is", "of", "in", "to", "I", "you", "he", "she", "it", "we", "they" } },
+                
                 { "French", new string[] { "le", "la", "et", "est", "en", "que", "je", "tu", "il", "elle", "nous", "vous", "ils", "elles" } },
+                
                 { "German", new string[] { "die", "und", "ist", "in", "zu", "es", "ich", "du", "er", "sie", "es", "wir", "ihr", "sie" } },
+                
                 { "Spanish", new string[] { "el", "la", "y", "es", "en", "que", "yo", "tú", "él", "ella", "usted", "nosotros", "vosotros", "ellos", "ellas", "ustedes" } },
+                
                 { "Ukrainian", new string[] { "і", "не", "це", "на", "за", "до", "я", "ти", "він", "вона", "воно", "ми", "ви", "вони" } },
+                
                 { "Russian", new string[] { "и", "в", "не", "на", "что", "с", "я", "ты", "он", "она", "оно", "мы", "вы", "они" } }
             };
 
