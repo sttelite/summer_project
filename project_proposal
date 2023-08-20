@@ -15,7 +15,7 @@ Proposed Algorithm:
 The language recognition problem can be approached through the following algorithmic 
 steps:
 a. Letter Recognition: Implement a letter recognition mechanism to identify individual letters 
-in the input text. Consider variations in letter shapes and forms across languages.
+in the input text.
 b. Letter Combination Analysis: Analyze combinations of letters (e.g., digraphs, trigraphs) to 
 capture language-specific patterns and characteristics. Create language-specific profiles of 
 common letter combinations.
