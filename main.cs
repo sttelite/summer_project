@@ -64,19 +64,19 @@ namespace LanguageRecognition
             // Define language-specific digraphs and trigraphs
             Dictionary<string, string[]> languageLetterCombinations = new Dictionary<string, string[]>
             {
-                { "English", new string[] { "th", "he", "an", "in", "er", "on", } },
-                
-                { "French", new string[] { "de", "le", "la", "et", "en", "au" } },
-                
-                { "German", new string[] { "sch", "ie", "ei", "en", "ch", "st" } },
-                
-                { "Spanish", new string[] { "de", "la", "el", "que", "en", "del" } },
-                
-                { "Ukrainian", new string[] { "ін", "не", "пр", "то", "на", "ни" } },
-                
-                { "Russian", new string[] { "ст", "но", "то", "на", "ен", "ов" } }
+                { "English", new string[] { "th", "he", "an", "in", "er", "on", "ll", "sh", "ch", "wh" } },
+    
+                { "French", new string[] { "de", "le", "la", "et", "en", "au", "ou", "ui" } },
+    
+                { "German", new string[] { "sch", "ie", "ei", "en", "ch", "st", "sp", "ie" } },
+    
+                { "Spanish", new string[] { "de", "la", "el", "que", "en", "del", "ch", "ll" } },
+    
+                { "Ukrainian", new string[] { "жд", "пр", "ко", "те", "бе", "мо", "по" } },
+    
+                { "Russian", new string[] { "ст", "но",  "ен", "ов", "ых", "зд", "чь" } }
             };
-
+            
             // Define language-specific characters
             Dictionary<string, char[]> languageCharacters = new Dictionary<string, char[]>
             {
@@ -94,7 +94,7 @@ namespace LanguageRecognition
             // Define language-specific dictionaries of popular words
             Dictionary<string, string[]> languageDictionaries = new Dictionary<string, string[]>
             {
-                { "English", new string[] { "the", "and", "is", "of", "to", "you", "he", "she", "it", "we", "they", "are" } },
+                { "English", new string[] { "the", "and", "is", "of", "to", "you", "he", "she", "it", "we", "they", "are", "in", "i", "am"} },
                 
                 { "French", new string[] { "le", "la", "et", "est", "en", "que", "je", "tu", "il", "elle", "nous", "vous", "ils", "elles" } },
                 
@@ -114,6 +114,7 @@ namespace LanguageRecognition
             {
                 int score = CalculateScore(inputText, language, languageLetters, languageLetterCombinations, languageCharacters, languageDictionaries);
                 languageScores[language] = score;
+                Console.WriteLine(score);
             }
 
             // Determine the detected language
