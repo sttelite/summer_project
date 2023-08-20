@@ -1,10 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace LanguageRecognition
 {
     class Program
     {
+        const int definitelyCorrect = -1;
+        const int definitelyNotPossible = -2;
+
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Language Recognition Program!");
@@ -39,9 +43,9 @@ namespace LanguageRecognition
             // Define language-specific digraphs and trigraphs
             Dictionary<string, string[]> languageLetterCombinations = new Dictionary<string, string[]>
             {
-                { "English", new string[] { "th", "he", "an", "in", "er", "on", "i" } },
+                { "English", new string[] { "th", "he", "an", "in", "er", "on" } },
                 { "French", new string[] { "de", "le", "la", "et", "en", "au" } },
-                { "German", new string[] { "sch", "ie", "ei", "en", "ch", "st", "ich" } },
+                { "German", new string[] { "sch", "ie", "ei", "en", "ch", "st" } },
                 { "Spanish", new string[] { "de", "la", "el", "que", "en", "del" } },
                 { "Ukrainian", new string[] { "ін", "не", "пр", "то", "на", "ни" } },
                 { "Russian", new string[] { "ст", "но", "то", "на", "ен", "ов" } }
@@ -50,23 +54,139 @@ namespace LanguageRecognition
             // Define language-specific characters
             Dictionary<string, char[]> languageCharacters = new Dictionary<string, char[]>
             {
-                { "French", new char[] { 'à', 'â', 'æ', 'ç', 'é', 'è', 'ê', 'ë', 'î', 'ô', 'œ', 'ù', 'û', 'ü', 'ÿ' } },
+                { "French", new char[] { 'à', 'â', 'æ', 'ç', 'é', 'è', 'ê', 'ë', 'î', 'ï', 'ô', 'œ', 'ù', 'û', 'ü', 'ÿ' } },
                 { "Spanish", new char[] { 'á', 'é', 'í', 'ó', 'ú', 'ñ' } },
-                { "Ukrainian", new char[] { 'є', 'ї', 'ґ', 'і'} },
-                { "Russian", new char[] { 'ё', 'э', 'ы', 'ъ' } }
+                { "Ukrainian", new char[] { 'є', 'ї', 'ґ', 'і', 'ў' } },
+                { "Russian", new char[] { 'ё', 'э', 'ы', 'ъ', 'ь' } }
             };
 
             // Define language-specific dictionaries of popular words
             Dictionary<string, string[]> languageDictionaries = new Dictionary<string, string[]>
             {
-                { "English", new string[] { "the", "and", "is", "of", "in", "to" } },
-                { "French", new string[] { "le", "la", "et", "est", "en", "que" } },
-                { "German", new string[] { "die", "und", "ist", "in", "zu", "es" } },
-                { "Spanish", new string[] { "el", "la", "y", "es", "en", "que" } },
-                { "Ukrainian", new string[] { "і", "не", "це", "на", "за", "до" } },
-                { "Russian", new string[] { "и", "в", "не", "на", "что", "с" } }
-            };        
+                { "English", new string[] { "the", "and", "is", "of", "in", "to", "I", "you", "he", "she", "it", "we", "they" } },
+                { "French", new string[] { "le", "la", "et", "est", "en", "que", "je", "tu", "il", "elle", "nous", "vous", "ils", "elles" } },
+                { "German", new string[] { "die", "und", "ist", "in", "zu", "es", "ich", "du", "er", "sie", "es", "wir", "ihr", "sie" } },
+                { "Spanish", new string[] { "el", "la", "y", "es", "en", "que", "yo", "tú", "él", "ella", "usted", "nosotros", "vosotros", "ellos", "ellas", "ustedes" } },
+                { "Ukrainian", new string[] { "і", "не", "це", "на", "за", "до", "я", "ти", "він", "вона", "воно", "ми", "ви", "вони" } },
+                { "Russian", new string[] { "и", "в", "не", "на", "что", "с", "я", "ты", "он", "она", "оно", "мы", "вы", "они" } }
+            };
+
+            // Count letters, letter combinations, characters, and dictionary words for each language
+            Dictionary<string, int> languageScores = new Dictionary<string, int>();
+
+            foreach (var language in languageLetters.Keys)
+            {
+                int score = CalculateScore(inputText, language, languageLetters, languageLetterCombinations, languageCharacters, languageDictionaries);
+                languageScores[language] = score;
+            }
+
+            // Determine the detected language
+            string detectedLanguage = AnalyzeScores(languageScores);
+
+            return detectedLanguage;
+        }
+
+        static int CalculateScore(string inputText, string language, Dictionary<string, string> languageLetters, Dictionary<string, string[]> languageLetterCombinations, Dictionary<string, char[]> languageCharacters, Dictionary<string, string[]> languageDictionaries)
+        {
+            int score = 0;
+
+            foreach (var character in inputText)
+            {
+                // Check for symbols or numbers
+                if (!char.IsLetter(character) && !char.IsWhiteSpace(character))
+                {
+                    return definitelyNotPossible;
+                }
+
+                // Check language-specific letters
+                if (score != definitelyCorrect && score != definitelyNotPossible)
+                {
+                    if (!(languageLetters[language].Contains(char.ToLower(character).ToString())))
+                    {
+                        score = definitelyNotPossible;
+                        return score;
+                    }
+                    else if (IsLetterValidForLanguage(character, language, languageCharacters))
+                    {
+                        score += definitelyCorrect;
+                        return score;
+                    }
+                }
+            }
+
+            //popular words check 
+            foreach (var dictWord in languageDictionaries.GetValueOrDefault(language, new string[] { }))
+            {
+                if (score != definitelyCorrect && score != definitelyNotPossible)
+                {
+                    if (inputText.ToLower().Contains(dictWord))
+                    {
+                        score = definitelyCorrect;
+                        return score;
+                    }
+                }
+            }
+            
+            //two-three graphes check
+            foreach (var combination in languageLetterCombinations[language])
+            {
+                if (score != definitelyCorrect && score != definitelyNotPossible)
+                {
+                    int combinationCount = Regex.Matches(inputText.ToLower(), @"\b" + Regex.Escape(combination) + @"\b").Count;
+
+                    if (combinationCount > 0)
+                    {
+                        score = combinationCount;
+                    }
+                }
+            }
+
+
+            return score;
+        }
+
+        static string AnalyzeScores(Dictionary<string, int> languageScores)
+        {
+            string detectedLanguage = "Unknown";
+            int maxScore = 0;
+            bool multipleLanguages = false;
+            bool languageDetected = false;
+
+            foreach (var language in languageScores.Keys)
+            {   
+                if (languageScores[language] == definitelyCorrect && (languageDetected == false))
+                {
+                    detectedLanguage = language;
+                    languageDetected = true;
+                }
+                else if (languageScores[language] == definitelyCorrect){
+                    multipleLanguages = true;
+                }
+                
+                if (languageScores[language] > maxScore && languageScores[language] != definitelyNotPossible && !(languageDetected))
+                {
+                    maxScore = languageScores[language];
+                    detectedLanguage = language;
+                }
+            }
+
+            if (multipleLanguages)
+            {
+                detectedLanguage = "Text is not written in one language";
+            }
+
+            if (maxScore == 0 && languageDetected == false)
+            {
+                detectedLanguage = "Language couldn't be identified";
+            }
+
+            return detectedLanguage;
+        }
+
+        static bool IsLetterValidForLanguage(char letter, string language, Dictionary<string, char[]> languageCharacters)
+        {
+            // Check if the letter is valid for the given language
+            return languageCharacters.ContainsKey(language) && languageCharacters[language].Contains(char.ToLower(letter));
         }
     }
 }
-
