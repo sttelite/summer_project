@@ -12,6 +12,7 @@ namespace LanguageRecognition
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Language Recognition Program!");
+            
             Console.WriteLine("Enter the text you want to recognize:");
 
             string inputText = Console.ReadLine();
@@ -21,6 +22,7 @@ namespace LanguageRecognition
                 string detectedLanguage = RecognizeLanguage(inputText);
                 Console.WriteLine($"Detected Language: {detectedLanguage}");
             }
+            
             else
             {
                 Console.WriteLine("Invalid input. Please enter some text.");
@@ -48,7 +50,7 @@ namespace LanguageRecognition
             // Define language-specific digraphs and trigraphs
             Dictionary<string, string[]> languageLetterCombinations = new Dictionary<string, string[]>
             {
-                { "English", new string[] { "th", "he", "an", "in", "er", "on" } },
+                { "English", new string[] { "th", "he", "an", "in", "er", "on", "ll"} },
                 
                 { "French", new string[] { "de", "le", "la", "et", "en", "au" } },
                 
@@ -78,7 +80,7 @@ namespace LanguageRecognition
             // Define language-specific dictionaries of popular words
             Dictionary<string, string[]> languageDictionaries = new Dictionary<string, string[]>
             {
-                { "English", new string[] { "the", "and", "is", "of", "in", "to", "I", "you", "he", "she", "it", "we", "they" } },
+                { "English", new string[] { "the", "and", "is", "of", "in", "to", "i", "you", "he", "she", "it", "we", "they", "hello" } },
                 
                 { "French", new string[] { "le", "la", "et", "est", "en", "que", "je", "tu", "il", "elle", "nous", "vous", "ils", "elles" } },
                 
@@ -98,6 +100,7 @@ namespace LanguageRecognition
             {
                 int score = CalculateScore(inputText, language, languageLetters, languageLetterCombinations, languageCharacters, languageDictionaries);
                 languageScores[language] = score;
+                Console.WriteLine(score);
             }
 
             // Determine the detected language
@@ -109,7 +112,8 @@ namespace LanguageRecognition
         static int CalculateScore(string inputText, string language, Dictionary<string, string> languageLetters, Dictionary<string, string[]> languageLetterCombinations, Dictionary<string, char[]> languageCharacters, Dictionary<string, string[]> languageDictionaries)
         {
             int score = 0;
-
+            
+            
             foreach (var character in inputText)
             {
                 // Check for symbols or numbers
@@ -119,17 +123,15 @@ namespace LanguageRecognition
                 }
 
                 // Check language-specific letters
-                if (score != definitelyCorrect && score != definitelyNotPossible)
+                if (score != definitelyCorrect)
                 {
-                    if (!(languageLetters[language].Contains(char.ToLower(character).ToString())))
-                    {
-                        score = definitelyNotPossible;
-                        return score;
-                    }
-                    else if (IsLetterValidForLanguage(character, language, languageCharacters))
+                    if (IsLetterValidForLanguage(character, language, languageCharacters))
                     {
                         score = definitelyCorrect;
-                        return score;
+                    }
+                    else if (!(languageLetters[language].Contains(char.ToLower(character).ToString())) && !char.IsWhiteSpace(character))
+                    {   
+                        score = definitelyNotPossible;
                     }
                 }
             }
@@ -139,28 +141,34 @@ namespace LanguageRecognition
             {
                 if (score != definitelyCorrect && score != definitelyNotPossible)
                 {
-                    if (inputText.ToLower().Contains(dictWord))
+                    string pattern = @"\b" + Regex.Escape(dictWord.ToLower()) + @"\b";
+                    if (Regex.IsMatch(inputText.ToLower(), pattern))
                     {
+                        Console.WriteLine (language);
                         score = definitelyCorrect;
                         return score;
                     }
                 }
             }
+
             
-            //two-three graphes check
+            // Two or three letter combinations check
             foreach (var combination in languageLetterCombinations[language])
             {
                 if (score != definitelyCorrect && score != definitelyNotPossible)
                 {
-                    int combinationCount = Regex.Matches(inputText.ToLower(), @"\b" + Regex.Escape(combination) + @"\b").Count;
+                    string pattern = @"\b" + Regex.Escape(combination.ToLower()) + @"\b";
+                    
+                    Console.WriteLine(pattern);
+                    
+                    int combinationCount = Regex.Matches(inputText.ToLower(), pattern).Count;
 
                     if (combinationCount > 0)
                     {
                         score = combinationCount;
                     }
-                }
-            }
-
+                } 
+            }              
 
             return score;
         }
@@ -205,8 +213,17 @@ namespace LanguageRecognition
 
         static bool IsLetterValidForLanguage(char letter, string language, Dictionary<string, char[]> languageCharacters)
         {
-            // Check if the letter is valid for the given language
-            return languageCharacters.ContainsKey(language) && Array.IndexOf(languageCharacters[language], char.ToLower(letter)) != -1;
+            char[] validCharacters = languageCharacters.GetValueOrDefault(language, new char[0]);
+    
+            foreach (char validChar in validCharacters)
+            {
+                if (char.ToLower(validChar) == char.ToLower(letter))
+                {   Console.WriteLine (language);
+                    return true;
+                }
+            }
+    
+            return false;
         }
     }
 }
