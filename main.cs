@@ -12,22 +12,33 @@ namespace LanguageRecognition
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Language Recognition Program!");
-            
-            Console.WriteLine("Enter the text you want to recognize:");
 
-            string inputText = Console.ReadLine();
-
-            if (!string.IsNullOrWhiteSpace(inputText))
+            while (true)
             {
-                string detectedLanguage = RecognizeLanguage(inputText);
-                Console.WriteLine($"Detected Language: {detectedLanguage}");
+                Console.WriteLine("Enter the text you want to recognize (or type 'exit' to quit):");
+
+                string inputText = Console.ReadLine();
+    
+                if (inputText.ToLower() == "exit")
+                {
+                    break; // Exit the loop if the user types 'exit'
+                }
+
+                if (!string.IsNullOrWhiteSpace(inputText))
+                {
+                    string detectedLanguage = RecognizeLanguage(inputText);
+                    Console.WriteLine($"Detected Language: {detectedLanguage}");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter some text.");
+                
+                }
             }
             
-            else
-            {
-                Console.WriteLine("Invalid input. Please enter some text.");
-            }
+            Console.WriteLine("Goodbye!");
         }
+
 
         static string RecognizeLanguage(string inputText)
         {
@@ -80,7 +91,7 @@ namespace LanguageRecognition
             // Define language-specific dictionaries of popular words
             Dictionary<string, string[]> languageDictionaries = new Dictionary<string, string[]>
             {
-                { "English", new string[] { "the", "and", "is", "of", "in", "to", "i", "you", "he", "she", "it", "we", "they", "hello" } },
+                { "English", new string[] { "the", "and", "is", "of", "in", "to", "i", "you", "he", "she", "it", "we", "they"} },
                 
                 { "French", new string[] { "le", "la", "et", "est", "en", "que", "je", "tu", "il", "elle", "nous", "vous", "ils", "elles" } },
                 
@@ -100,7 +111,6 @@ namespace LanguageRecognition
             {
                 int score = CalculateScore(inputText, language, languageLetters, languageLetterCombinations, languageCharacters, languageDictionaries);
                 languageScores[language] = score;
-                Console.WriteLine(score);
             }
 
             // Determine the detected language
@@ -144,7 +154,6 @@ namespace LanguageRecognition
                     string pattern = @"\b" + Regex.Escape(dictWord.ToLower()) + @"\b";
                     if (Regex.IsMatch(inputText.ToLower(), pattern))
                     {
-                        Console.WriteLine (language);
                         score = definitelyCorrect;
                         return score;
                     }
@@ -157,9 +166,7 @@ namespace LanguageRecognition
             {
                 if (score != definitelyCorrect && score != definitelyNotPossible)
                 {
-                    string pattern = @"\b" + Regex.Escape(combination.ToLower()) + @"\b";
-                    
-                    Console.WriteLine(pattern);
+                    string pattern = Regex.Escape(combination.ToLower());
                     
                     int combinationCount = Regex.Matches(inputText.ToLower(), pattern).Count;
 
