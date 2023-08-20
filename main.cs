@@ -29,7 +29,7 @@ namespace LanguageRecognition
                 if (!string.IsNullOrWhiteSpace(inputText))
                 {   
                     
-                    string detectedLanguage = RecognizeLanguage(inputText);                    // Recognize the language of the input text
+                    string detectedLanguage = RecognizeLanguage(inputText);// Recognize the language of the input text
                     Console.WriteLine($"Detected Language: {detectedLanguage}");
                 }
                 else
@@ -64,7 +64,7 @@ namespace LanguageRecognition
             // Define language-specific digraphs and trigraphs
             Dictionary<string, string[]> languageLetterCombinations = new Dictionary<string, string[]>
             {
-                { "English", new string[] { "th", "he", "an", "in", "er", "on", "ll"} },
+                { "English", new string[] { "th", "he", "an", "in", "er", "on", } },
                 
                 { "French", new string[] { "de", "le", "la", "et", "en", "au" } },
                 
@@ -114,7 +114,6 @@ namespace LanguageRecognition
             {
                 int score = CalculateScore(inputText, language, languageLetters, languageLetterCombinations, languageCharacters, languageDictionaries);
                 languageScores[language] = score;
-                Console.WriteLine (score);
             }
 
             // Determine the detected language
@@ -248,7 +247,8 @@ namespace LanguageRecognition
 
             if (maxScore == 0 && languageDetected == false)
             {
-                detectedLanguage = "Language couldn't be identified";
+                detectedLanguage = "The program did not receive enough data to uniquely identify the language, possible languages: ";
+                detectedLanguage += string.Join(", ", possibleLanguages);
             }
 
             return detectedLanguage;
