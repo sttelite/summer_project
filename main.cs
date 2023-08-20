@@ -29,7 +29,7 @@ namespace LanguageRecognition
                 if (!string.IsNullOrWhiteSpace(inputText))
                 {   
                     
-                    string detectedLanguage = RecognizeLanguage(inputText);// Recognize the language of the input text
+                    string detectedLanguage = RecognizeLanguage(inputText);                    // Recognize the language of the input text
                     Console.WriteLine($"Detected Language: {detectedLanguage}");
                 }
                 else
@@ -84,7 +84,7 @@ namespace LanguageRecognition
                 
                 { "Spanish", new char[] { 'á', 'é', 'í', 'ó', 'ú', 'ñ' } },
                 
-                { "Ukrainian", new char[] { 'є', 'ї', 'ґ', 'і' } },
+                { "Ukrainian", new char[] { 'є', 'ґ', 'і' } },
                 
                 { "Russian", new char[] { 'ё', 'э', 'ы', 'ъ' } },
                 
@@ -114,6 +114,7 @@ namespace LanguageRecognition
             {
                 int score = CalculateScore(inputText, language, languageLetters, languageLetterCombinations, languageCharacters, languageDictionaries);
                 languageScores[language] = score;
+                Console.WriteLine (score);
             }
 
             // Determine the detected language
@@ -192,18 +193,32 @@ namespace LanguageRecognition
         {
             string detectedLanguage = "Unknown";
             int maxScore = 0;
+            
             bool multipleLanguages = false;
             bool languageDetected = false;
+            
+            List<string> possibleLanguages = new List<string>();
+            List<string> definitelyCorrectLanguages = new List<string>();
+            
 
             foreach (var language in languageScores.Keys)
             {   
+                if (languageScores[language] != definitelyCorrect && languageScores[language] != definitelyNotPossible)
+                {
+                possibleLanguages.Add(language); // Add the language to the list of possible languages
+                }
+                
                 if (languageScores[language] == definitelyCorrect && (languageDetected == false))
                 {
                     detectedLanguage = language;
                     languageDetected = true;
+                    definitelyCorrectLanguages.Add(language);
                 }
-                else if (languageScores[language] == definitelyCorrect){
+                
+                else if (languageScores[language] == definitelyCorrect)
+                {
                     multipleLanguages = true;
+                    definitelyCorrectLanguages.Add(language);
                 }
                 
                 if (languageScores[language] > maxScore && languageScores[language] != definitelyNotPossible && !(languageDetected))
@@ -212,10 +227,23 @@ namespace LanguageRecognition
                     detectedLanguage = language;
                 }
             }
-
-            if (multipleLanguages)
+            
+            if (definitelyCorrectLanguages.Count == 0) // Case if only 1 possible language remaning
             {
-                detectedLanguage = "Text is not written in one language";
+                if (possibleLanguages.Count == 1){
+                    
+                    languageDetected = true;
+                    detectedLanguage = possibleLanguages[0];
+                    return detectedLanguage;
+                }
+            }
+            
+            //Case if multiple languages are definitelyCorrect
+            if (multipleLanguages)
+            {   
+                detectedLanguage = "Text could be written in multiple languages: ";
+                detectedLanguage += string.Join(", ", definitelyCorrectLanguages);
+                return detectedLanguage;
             }
 
             if (maxScore == 0 && languageDetected == false)
@@ -234,7 +262,7 @@ namespace LanguageRecognition
             foreach (char validChar in validCharacters)
             {
                 if (char.ToLower(validChar) == char.ToLower(letter))
-                {   Console.WriteLine (language);
+                {   
                     return true;
                 }
             }
