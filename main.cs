@@ -39,9 +39,9 @@ namespace LanguageRecognition
             // Define language-specific digraphs and trigraphs
             Dictionary<string, string[]> languageLetterCombinations = new Dictionary<string, string[]>
             {
-                { "English", new string[] { "th", "he", "an", "in", "er", "on" } },
+                { "English", new string[] { "th", "he", "an", "in", "er", "on", "i" } },
                 { "French", new string[] { "de", "le", "la", "et", "en", "au" } },
-                { "German", new string[] { "sch", "ie", "ei", "en", "ch", "st" } },
+                { "German", new string[] { "sch", "ie", "ei", "en", "ch", "st", "ich" } },
                 { "Spanish", new string[] { "de", "la", "el", "que", "en", "del" } },
                 { "Ukrainian", new string[] { "ін", "не", "пр", "то", "на", "ни" } },
                 { "Russian", new string[] { "ст", "но", "то", "на", "ен", "ов" } }
