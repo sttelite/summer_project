@@ -48,17 +48,17 @@ namespace LanguageRecognition
             // Define language-specific letters
             Dictionary<string, string> languageLetters = new Dictionary<string, string>
             {
-                { "English", "abcdefghijklmnopqrstuvwxyz." },
+                { "English", "abcdefghijklmnopqrstuvwxyz.,?!" },
                 
-                { "French", "abcdefghijklmnopqrstuvwxyzàâæçéèêëîïôœùûüÿ." },
+                { "French", "abcdefghijklmnopqrstuvwxyzàâæçéèêëîïôœùûüÿ.,?!" },
                 
-                { "German", "abcdefghijklmnopqrstuvwxyzäöüß." },
+                { "German", "abcdefghijklmnopqrstuvwxyzäöüß.,?!" },
                 
-                { "Spanish", "abcdefghijklmnopqrstuvwxyzáéíóúñ." },
+                { "Spanish", "abcdefghijklmnopqrstuvwxyzáéíóúñ.,?¿!" },
                 
-                { "Ukrainian", "абвгдеєжзиіїйклмнопрстуфхцчшщьюя." },
+                { "Ukrainian", "абвгдеєжзиіїйклмнопрстуфхцчшщьюя.,?!" },
                 
-                { "Russian", "абвгдеёжзийклмнопрстуфхцчшщъыьэюя." }
+                { "Russian", "абвгдеёжзийклмнопрстуфхцчшщъыьэюя.,?!" }
             };
 
             // Define language-specific digraphs and trigraphs
@@ -94,17 +94,17 @@ namespace LanguageRecognition
             // Define language-specific dictionaries of popular words
             Dictionary<string, string[]> languageDictionaries = new Dictionary<string, string[]>
             {
-                { "English", new string[] { "the", "and", "is", "of", "in", "to", "i", "you", "he", "she", "it", "we", "they"} },
+                { "English", new string[] { "the", "and", "is", "of", "to", "you", "he", "she", "it", "we", "they", "are" } },
                 
                 { "French", new string[] { "le", "la", "et", "est", "en", "que", "je", "tu", "il", "elle", "nous", "vous", "ils", "elles" } },
                 
-                { "German", new string[] { "die", "und", "ist", "in", "zu", "es", "ich", "du", "er", "sie", "es", "wir", "ihr", "sie" } },
+                { "German", new string[] { "die", "und", "ist",  "zu", "es", "ich", "du", "er", "sie", "es", "wir", "ihr", "sie" } },
                 
                 { "Spanish", new string[] { "el", "la", "y", "es", "en", "que", "yo", "tú", "él", "ella", "usted", "nosotros", "vosotros", "ellos", "ellas", "ustedes" } },
                 
-                { "Ukrainian", new string[] { "і", "не", "це", "на", "за", "до", "я", "ти", "він", "вона", "воно", "ми", "ви", "вони" } },
+                { "Ukrainian", new string[] { "і", "не", "це", "за", "до", "ти", "він", "вона", "воно", "ми", "ви", "вони" } },
                 
-                { "Russian", new string[] { "и", "в", "не", "на", "что", "с", "я", "ты", "он", "она", "оно", "мы", "вы", "они" } }
+                { "Russian", new string[] { "и", "в", "не", "что", "с", "ты", "он", "она", "оно", "мы", "вы", "они" } }
             };
 
             // Count  letter combinations for each language
@@ -131,7 +131,7 @@ namespace LanguageRecognition
             foreach (var character in inputText)
             {
                 // Check for symbols or numbers
-                if (!char.IsLetter(character) && !char.IsWhiteSpace(character) && character != '.')
+                if (!char.IsLetter(character) && !char.IsWhiteSpace(character) && character != '.' && character != ',' && character != '?' && character != '¿' && character != '!')
                 {
                     return definitelyNotPossible;
                 }
