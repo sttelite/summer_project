@@ -29,7 +29,7 @@ namespace LanguageRecognition
                 if (!string.IsNullOrWhiteSpace(inputText))
                 {   
                     
-                    string detectedLanguage = RecognizeLanguage(inputText);                    // Recognize the language of the input text
+                    string detectedLanguage = RecognizeLanguage(inputText);// Recognize the language of the input text
                     Console.WriteLine($"Detected Language: {detectedLanguage}");
                 }
                 else
