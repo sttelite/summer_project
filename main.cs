@@ -6,6 +6,7 @@ namespace LanguageRecognition
 {
     class Program
     {
+        // Constants used to define special score values
         const int definitelyCorrect = -1;
         const int definitelyNotPossible = -2;
 
@@ -23,10 +24,12 @@ namespace LanguageRecognition
                 {
                     break; // Exit the loop if the user types 'exit'
                 }
-
+                
+                // Check if the input is not empty or whitespace
                 if (!string.IsNullOrWhiteSpace(inputText))
-                {
-                    string detectedLanguage = RecognizeLanguage(inputText);
+                {   
+                    
+                    string detectedLanguage = RecognizeLanguage(inputText);                    // Recognize the language of the input text
                     Console.WriteLine($"Detected Language: {detectedLanguage}");
                 }
                 else
@@ -104,7 +107,7 @@ namespace LanguageRecognition
                 { "Russian", new string[] { "и", "в", "не", "на", "что", "с", "я", "ты", "он", "она", "оно", "мы", "вы", "они" } }
             };
 
-            // Count letters, letter combinations, characters, and dictionary words for each language
+            // Count  letter combinations for each language
             Dictionary<string, int> languageScores = new Dictionary<string, int>();
 
             foreach (var language in languageLetters.Keys)
@@ -119,6 +122,7 @@ namespace LanguageRecognition
             return detectedLanguage;
         }
 
+        // Function to calculate the each language score
         static int CalculateScore(string inputText, string language, Dictionary<string, string> languageLetters, Dictionary<string, string[]> languageLetterCombinations, Dictionary<string, char[]> languageCharacters, Dictionary<string, string[]> languageDictionaries)
         {
             int score = 0;
@@ -146,33 +150,36 @@ namespace LanguageRecognition
                 }
             }
 
-            //popular words check 
+            // Check for popular words in the input text
             foreach (var dictWord in languageDictionaries.GetValueOrDefault(language, new string[] { }))
             {
                 if (score != definitelyCorrect && score != definitelyNotPossible)
                 {
+                    // Create a pattern for the dictionary word and check if it's present in the input text
                     string pattern = @"\b" + Regex.Escape(dictWord.ToLower()) + @"\b";
+                    
                     if (Regex.IsMatch(inputText.ToLower(), pattern))
                     {
-                        score = definitelyCorrect;
+                        score = definitelyCorrect; // Mark as definitely correct if a popular word is found
                         return score;
                     }
                 }
             }
 
             
-            // Two or three letter combinations check
+            // Check for language-specific letter combinations (digraphs and trigraphs)
             foreach (var combination in languageLetterCombinations[language])
             {
                 if (score != definitelyCorrect && score != definitelyNotPossible)
                 {
+                    //Create a pattern for the combination and count its occurrences in the input text
                     string pattern = Regex.Escape(combination.ToLower());
                     
                     int combinationCount = Regex.Matches(inputText.ToLower(), pattern).Count;
 
                     if (combinationCount > 0)
                     {
-                        score = combinationCount;
+                        score = combinationCount; // Set the score to the count of occurrences
                     }
                 } 
             }              
@@ -180,6 +187,7 @@ namespace LanguageRecognition
             return score;
         }
 
+        // Function to analyze language scores and determine the detected language
         static string AnalyzeScores(Dictionary<string, int> languageScores)
         {
             string detectedLanguage = "Unknown";
@@ -218,6 +226,7 @@ namespace LanguageRecognition
             return detectedLanguage;
         }
 
+        // Function to check if a letter is specific (that letter exists only in this language) for a given language  
         static bool IsLetterValidForLanguage(char letter, string language, Dictionary<string, char[]> languageCharacters)
         {
             char[] validCharacters = languageCharacters.GetValueOrDefault(language, new char[0]);
