@@ -173,13 +173,6 @@ namespace LanguageRecognition
             
             foreach (var character in inputText)
             {
-                // Check for symbols or numbers
-                if (!char.IsLetter(character) && !char.IsWhiteSpace(character) && character != '.' && character != ',' && character != '?' && character != '¿' && character != '!')
-                {
-                    return definitelyNotPossible;
-                    
-                }
-
                 // Check language-specific letters
                 if (score != definitelyCorrect)
                 {
