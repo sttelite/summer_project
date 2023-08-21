@@ -4,7 +4,6 @@ Created on Fr July 14 19:53:09 2023
 
 by Havryliuk Danylo, student of Charles University, educational program - Computer Science (Informatika)
 
-
 SUMMER PROJECT
 
 LANGUAGE RECOGNITION PROGRAM
