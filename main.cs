@@ -78,11 +78,11 @@ namespace LanguageRecognition
             {
                 { "English", new string[] { "th", "he", "an", "in", "er", "on", "ll", "sh", "ch", "wh" } },
     
-                { "French", new string[] { "de", "le", "la", "et", "en", "au", "ou", "ui" } },
+                { "French", new string[] {"le", "la", "et", "en", "au", "ou", "ui", "est", "un" } },
     
                 { "German", new string[] { "sch", "ie", "ei", "en", "ch", "st", "sp", "ie" } },
     
-                { "Spanish", new string[] { "de", "la", "el", "que", "en", "del", "ch", "ll" } },
+                { "Spanish", new string[] {"la", "el", "que", "en", "del", "ch", "ll" } },
     
                 { "Ukrainian", new string[] { "жд", "пр", "ко", "те", "бе", "мо", "по" } },
     
@@ -127,9 +127,9 @@ namespace LanguageRecognition
                 
                 { "French", new string[] { "le", "la", "et", "est", "en", "que", "je", "tu", "il", "elle", "nous", "vous", "ils", "elles" } },
                 
-                { "German", new string[] { "die", "und", "ist",  "zu", "es", "ich", "du", "er", "sie", "es", "wir", "ihr", "sie" } },
+                { "German", new string[] { "die", "und", "ist",  "zu", "ich", "du", "er", "sie", "es", "wir", "ihr", "sie" } },
                 
-                { "Spanish", new string[] { "el", "la", "y", "es", "en", "que", "yo", "tú", "él", "ella", "usted", "nosotros", "vosotros", "ellos", "ellas", "ustedes" } },
+                { "Spanish", new string[] { "el", "la", "y", "es", "en", "que", "yo", "tú", "él", "ella", "usted", "nosotros", "vosotros", "ellos", "ellas", "ustedes", "es" } },
                 
                 { "Ukrainian", new string[] { "і", "не", "це", "за", "до", "ти", "він", "вона", "воно", "ми", "ви", "вони" } },
                 
