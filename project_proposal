@@ -1,0 +1,36 @@
+By Havryliuk Danylo, Student of first year, MFF, Created on 29.04.2023
+Language Recognition Program
+Introduction:
+The goal of this program is to accurately identify the language of a given text. Program aims 
+to provide reliable language recognition capabilities.
+Problem Description:
+The problem revolves around recognizing the language of a given text input. The program 
+needs to accurately identify the language from a set of possible languages: English, French, 
+German, Spanish, Ukrainian and Russian.
+Formalization of the Problem:
+The problem can be formalized as follows:
+Input: A text string written in one of the possible languages.
+Output: The identified language of the input text.
+Proposed Algorithm:
+The language recognition problem can be approached through the following algorithmic 
+steps:
+a. Letter Recognition: Implement a letter recognition mechanism to identify individual letters 
+in the input text.
+b. Letter Combination Analysis: Analyze combinations of letters (e.g., digraphs, trigraphs) to 
+capture language-specific patterns and characteristics. Create language-specific profiles of 
+common letter combinations.
+c. Probabilistic Analysis: Calculate probability of the input text belonging to each language based on letter 
+combinations.
+d. Decision Tree: Develop a decision tree algorithm to handle basic exceptions, such as the 
+presence of specific letters that uniquely identify a particular language.
+Input and Output Format:
+Input: The program accepts a text string as input, which can be entered through the console.
+Output: The program outputs the identified language of the input text, displayed in the 
+console.
+Program Interface:
+The program interface will be implemented as a console application. The user can input the 
+text to be recognized, and the program will display the identified language as the output.
+Interactivity:
+The program will provide a user-friendly experience by displaying clear instructions and 
+prompts to guide the user through the recognition process. Error handling will be 
+implemented to handle invalid inputs gracefully
