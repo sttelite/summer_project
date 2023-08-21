@@ -1,45 +1,85 @@
 Test Data 1:
 
 Input: "Bonjour, comment ça va?"
-Expected Output: "Detected Language: French"
+Output: "Detected Language: French"
 
 Test Data 2:
 
-Input: "Ich liebe Computerwissenschaft."
-Expected Output: "Detected Language: German"
+Input: "Ich liebe Computerwissenschaft!"
+Output: "Detected Language: German"
 
 Test Data 3:
 
 Input: "Привіт, як справи?"
-Expected Output: "Detected Language: Ukrainian"
+Output: "Detected Language: Ukrainian"
 
 Test Data 4:
 
 Input: "Hola, ¿cómo estás?"
-Expected Output: "Detected Language: Spanish"
+Output: "Detected Language: Spanish"
 
 Test Data 5:
 
 Input: "Hello, how are you doing today?"
-Expected Output: "Detected Language: English"
+Output: "Detected Language: English"
 
 Test Data 6:
 
 Input: "This is a test of the language recognition program."
-Expected Output: "Detected Language: English"
+Output: "Detected Language: English"
 
 Test Data 7:
 
 Input: "Это тест программы распознавания языка."
-Expected Output: "Detected Language: Russian"
+Output: "Detected Language: Russian"
 
 Test Data 8:
 
 Input: "Das ist ein Test des Spracherkennungsprogramms."
-Expected Output: "Detected Language: German"
+Output: "Detected Language: German"
 
 Test Data 9:
 
 Input: "Esto es una prueba del programa de reconocimiento de idioma."
-Expected Output: "Detected Language: Spanish"
+Output: "Detected Language: Spanish"
+
+Test Data 10:
+
+Input: "de"
+Output: "Detected Language: The program did not receive enough data to uniquely identify the language, possible languages: English, French, German, Spanish"
+
+Test Data 11:
+
+Input: "أتساءل عما إذا كنت ستحاول ترجمة ما هو مكتوب هنا؟"
+Output: "Detected Language: Sorry, but this language is not supported by the program, yet:)"
+
+Test Data 12:
+
+Input: "Я"
+Output: "Detected Language: The program did not receive enough data to uniquely identify the language, possible languages: Ukrainian, Russian"
+
+Test Data 13:
+
+Input: "Паляниця"
+Output: "Detected Language: Ukrainian"
+
+Test Data 14:
+
+Input: "sdjfnsdkf23234"
+Output: "Invalid input. Please enter some text."
+
+Test Data 15:
+
+Input: "sdokf lksdfsd sdf&@ asdjq$%"
+Output: "Invalid input. Please enter some text."
+
+
+
+
+
+
+
+
+
+
 
