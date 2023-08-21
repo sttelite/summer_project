@@ -157,7 +157,6 @@ namespace LanguageRecognition
             {
                 int score = CalculateScore(inputText, language, languageLetters, languageLetterCombinations, MoreRarelylanguageLetterCombinations, languageCharacters, languageDictionaries);
                 languageScores[language] = score;
-                Console.WriteLine(score);
             }
 
             // Determine the detected language
