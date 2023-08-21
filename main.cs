@@ -21,35 +21,49 @@ namespace LanguageRecognition
         // Constants used to define special score values
         const int definitelyCorrect = -1;
         const int definitelyNotPossible = -2;
-
+        
         static void Main(string[] args)
         {
+            bool goodInput;
+            
             Console.WriteLine("Welcome to Language Recognition Program!");
-
+            
             while (true) //continuous input
-           {
+           {    
                 Console.WriteLine("Enter the text you want to recognize (or type 'exit' to quit):");
-
-                string inputText = Console.ReadLine();
-    
-                if (inputText.ToLower() == "exit")
-                {
-                    break; // Exit the loop if the user types 'exit'
-                }
                 
-                // Check if the input is not empty or whitespace
-                if (!string.IsNullOrWhiteSpace(inputText))
-                {   
-                    
-                    string detectedLanguage = RecognizeLanguage(inputText); // Recognize the language of the input text
-                    Console.WriteLine($"Detected Language: {detectedLanguage}");
-                }
-                else
+                string inputText = Console.ReadLine();
+                goodInput = true;
+                
+                foreach (var character in inputText)
                 {
-                    Console.WriteLine("Invalid input. Please enter some text.");
-                 
+                // Check for symbols or numbers
+                    if (!char.IsLetter(character) && !char.IsWhiteSpace(character) && character != '.' && character != ',' && character != '?' && character != '¿' && character != '!')
+                    {
+                        Console.WriteLine("Invalid input. Please enter some text.");
+                        goodInput = false;
+                        break;
+                    }
                 }
-            }
+                if (goodInput)
+                {
+                    if (inputText.ToLower() == "exit")
+                    {
+                        break; // Exit the loop if the user types 'exit'
+                    }
+                
+                    // Check if the input is not empty or whitespace
+                    if (!string.IsNullOrWhiteSpace(inputText))
+                    {          
+                        string detectedLanguage = RecognizeLanguage(inputText); // Recognize the language of the input text
+                        Console.WriteLine($"Detected Language: {detectedLanguage}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid input. Please enter some text.");
+                    }
+                }     
+           }
             
             Console.WriteLine("Goodbye!");
         }
@@ -100,7 +114,7 @@ namespace LanguageRecognition
     
                 { "Spanish", new string[] { "es", "de", "te", "re", "ra", "er", "an" } },
     
-                { "Ukrainian", new string[] { "ал", "ол", "на", "ні", "ро", "рі", "ла", "лі", "ло"} },
+                { "Ukrainian", new string[] { "ал", "ол", "на", "ні", "ро", "рі", "ла", "лі", "ло", "ля"} },
     
                 { "Russian", new string[] { "то",  "ор", "ил", "ин", "ос", "та", "ул" } }
             };        
@@ -127,9 +141,9 @@ namespace LanguageRecognition
                 
                 { "French", new string[] { "le", "la", "et", "est", "en", "que", "je", "tu", "il", "elle", "nous", "vous", "ils", "elles" } },
                 
-                { "German", new string[] { "die", "und", "ist",  "zu", "ich", "du", "er", "sie", "es", "wir", "ihr", "sie" } },
+                { "German", new string[] { "die", "und", "ist", "zu", "ich", "du", "er", "sie", "wir", "ihr", "sie" } },
                 
-                { "Spanish", new string[] { "el", "la", "y", "es", "en", "que", "yo", "tú", "él", "ella", "usted", "nosotros", "vosotros", "ellos", "ellas", "ustedes", "es" } },
+                { "Spanish", new string[] { "el", "y", "es", "en", "que", "yo", "tú", "él", "ella", "usted", "nosotros", "vosotros", "ellos", "ellas", "ustedes", "es" } },
                 
                 { "Ukrainian", new string[] { "і", "не", "це", "за", "до", "ти", "він", "вона", "воно", "ми", "ви", "вони" } },
                 
@@ -164,6 +178,7 @@ namespace LanguageRecognition
                 if (!char.IsLetter(character) && !char.IsWhiteSpace(character) && character != '.' && character != ',' && character != '?' && character != '¿' && character != '!')
                 {
                     return definitelyNotPossible;
+                    
                 }
 
                 // Check language-specific letters
@@ -226,8 +241,9 @@ namespace LanguageRecognition
 
                     if (combinationCount > 0)
                     {
-                        score += combinationCount/2; // Set the score to the count of occurrences
+                        score += combinationCount/2 + 1; // Set the score to the count of occurrences
                     }
+                    
                 } 
             }
 
