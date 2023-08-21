@@ -26,8 +26,8 @@ namespace LanguageRecognition
         {
             Console.WriteLine("Welcome to Language Recognition Program!");
 
-            while (true)
-            {
+            while (true) //continuous input
+           {
                 Console.WriteLine("Enter the text you want to recognize (or type 'exit' to quit):");
 
                 string inputText = Console.ReadLine();
@@ -41,13 +41,13 @@ namespace LanguageRecognition
                 if (!string.IsNullOrWhiteSpace(inputText))
                 {   
                     
-                    string detectedLanguage = RecognizeLanguage(inputText);// Recognize the language of the input text
+                    string detectedLanguage = RecognizeLanguage(inputText); // Recognize the language of the input text
                     Console.WriteLine($"Detected Language: {detectedLanguage}");
                 }
                 else
                 {
                     Console.WriteLine("Invalid input. Please enter some text.");
-                
+                 
                 }
             }
             
@@ -88,6 +88,23 @@ namespace LanguageRecognition
     
                 { "Russian", new string[] { "ст", "но",  "ен", "ов", "ых", "зд", "чь" } }
             };
+
+            //Define less popular language-specific digraphs and trigraphs
+            Dictionary<string, string[]> MoreRarelylanguageLetterCombinations = new Dictionary<string, string[]>
+            {
+                { "English", new string[] { "st", "re", "nt", "en", "tion", "ing" } },
+    
+                { "French", new string[] { "re", "te", "es", "on", "oi", "ai", "il", "ue" } },
+    
+                { "German", new string[] { "un", "an", "in", "au", "be", "ne", "sc", "ma" } },
+    
+                { "Spanish", new string[] { "es", "de", "te", "re", "ra", "er", "an" } },
+    
+                { "Ukrainian", new string[] { "ал", "ол", "на", "ні", "ро", "рі", "ла", "лі", "ло"} },
+    
+                { "Russian", new string[] { "то",  "ор", "ил", "ин", "ос", "та", "ул" } }
+            };        
+            
             
             // Define language-specific characters
             Dictionary<string, char[]> languageCharacters = new Dictionary<string, char[]>
@@ -124,7 +141,7 @@ namespace LanguageRecognition
 
             foreach (var language in languageLetters.Keys)
             {
-                int score = CalculateScore(inputText, language, languageLetters, languageLetterCombinations, languageCharacters, languageDictionaries);
+                int score = CalculateScore(inputText, language, languageLetters, languageLetterCombinations, MoreRarelylanguageLetterCombinations, languageCharacters, languageDictionaries);
                 languageScores[language] = score;
                 Console.WriteLine(score);
             }
@@ -136,7 +153,7 @@ namespace LanguageRecognition
         }
 
         // Function to calculate the each language score
-        static int CalculateScore(string inputText, string language, Dictionary<string, string> languageLetters, Dictionary<string, string[]> languageLetterCombinations, Dictionary<string, char[]> languageCharacters, Dictionary<string, string[]> languageDictionaries)
+        static int CalculateScore(string inputText, string language, Dictionary<string, string> languageLetters, Dictionary<string, string[]> languageLetterCombinations, Dictionary<string, string[]> MoreRarelylanguageLetterCombinations, Dictionary<string, char[]> languageCharacters, Dictionary<string, string[]> languageDictionaries)
         {
             int score = 0;
             
@@ -178,6 +195,7 @@ namespace LanguageRecognition
                     }
                 }
             }
+            
 
             
             // Check for language-specific letter combinations (digraphs and trigraphs)
@@ -195,7 +213,23 @@ namespace LanguageRecognition
                         score = combinationCount; // Set the score to the count of occurrences
                     }
                 } 
-            }              
+            }        
+            
+            foreach (var combination in MoreRarelylanguageLetterCombinations[language])
+            {
+                if (score != definitelyCorrect && score != definitelyNotPossible)
+                {
+                    //Create a pattern for the combination and count its occurrences in the input text
+                    string pattern = Regex.Escape(combination.ToLower());
+                    
+                    int combinationCount = Regex.Matches(inputText.ToLower(), pattern).Count;
+
+                    if (combinationCount > 0)
+                    {
+                        score += combinationCount/2; // Set the score to the count of occurrences
+                    }
+                } 
+            }
 
             return score;
         }
