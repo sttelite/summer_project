@@ -33,7 +33,7 @@ namespace LanguageRecognition
                 Console.WriteLine("Enter the text you want to recognize (or type 'exit' to quit):");
                 
                 string inputText = Console.ReadLine();
-                goodInput = true;
+                goodInput = true; //if there is no symbols/numbers in input (except !?,. that are needed for texts)
                 
                 foreach (var character in inputText)
                 {
@@ -203,8 +203,6 @@ namespace LanguageRecognition
                 }
             }
             
-
-            
             // Check for language-specific letter combinations (digraphs and trigraphs)
             foreach (var combination in languageLetterCombinations[language])
             {
@@ -222,6 +220,7 @@ namespace LanguageRecognition
                 } 
             }        
             
+            // Check for language-specific less popular letter combinations (digraphs and trigraphs)
             foreach (var combination in MoreRarelylanguageLetterCombinations[language])
             {
                 if (score != definitelyCorrect && score != definitelyNotPossible)
@@ -245,7 +244,7 @@ namespace LanguageRecognition
         // Function to analyze language scores and determine the detected language
         static string AnalyzeScores(Dictionary<string, int> languageScores)
         {
-            string detectedLanguage = "Unknown";
+            string detectedLanguage = "Unknown"; // value that function returns
             int maxScore = 0;
             
             bool multipleLanguages = false;
@@ -262,27 +261,27 @@ namespace LanguageRecognition
                 possibleLanguages.Add(language); // Add the language to the list of possible languages
                 }
                 
-                if (languageScores[language] == definitelyCorrect && (languageDetected == false))
+                if (languageScores[language] == definitelyCorrect && (languageDetected == false)) // we have definitelyCorrect language, so we should return it, despite scores
                 {
                     detectedLanguage = language;
                     languageDetected = true;
                     definitelyCorrectLanguages.Add(language);
                 }
                 
-                else if (languageScores[language] == definitelyCorrect)
+                else if (languageScores[language] == definitelyCorrect) // program have 2 definitinelyCorrect languages (so text is written in 2 languages) and should return it and notify user about that
                 {
                     multipleLanguages = true;
                     definitelyCorrectLanguages.Add(language);
                 }
                 
-                if (languageScores[language] > maxScore && languageScores[language] != definitelyNotPossible && !(languageDetected))
+                if (languageScores[language] > maxScore && languageScores[language] != definitelyNotPossible && !(languageDetected)) //finding max score language
                 {
                     maxScore = languageScores[language];
                     detectedLanguage = language;
                 }
             }
             
-            if (definitelyCorrectLanguages.Count == 0) // Case if only 1 possible language remaning
+            if (definitelyCorrectLanguages.Count == 0) // Case if only 1 possible language remaning (we have 5 languages that cant be (definitelyNotPossible), so the last one is the answer)
             {
                 if (possibleLanguages.Count == 1){
                     
@@ -292,7 +291,7 @@ namespace LanguageRecognition
                 }
             }
             
-            //Case if multiple languages are definitelyCorrect
+            //Case if multiple languages are definitelyCorrect, output
             if (multipleLanguages)
             {   
                 detectedLanguage = "Text could be written in multiple languages: ";
@@ -300,15 +299,15 @@ namespace LanguageRecognition
                 return detectedLanguage;
             }
 
-            if (maxScore == 0 && languageDetected == false)
+            if (maxScore == 0 && languageDetected == false) // all languages scores = 0 and program have 0 definitelyCorrect languages, so there is not enough data to recognize something
             {   if (possibleLanguages.Count != 0)
                 {
                     detectedLanguage = "The program did not receive enough data to uniquely identify the language, possible languages: ";
                     detectedLanguage += string.Join(", ", possibleLanguages);
                 }        
-                else
+                else 
                 {
-                    detectedLanguage = "Sorry, but this language is not supported by the program, yet:)";
+                    detectedLanguage = "Sorry, but this language is not supported by the program, yet:)"; // case if all languages are definitelyNotPossible, so text is wriiten on some unclear language (arabic, greek, etc)
                 }
             }
 
@@ -320,7 +319,7 @@ namespace LanguageRecognition
         {
             char[] validCharacters = languageCharacters.GetValueOrDefault(language, new char[0]);
     
-            foreach (char validChar in validCharacters)
+            foreach (char validChar in validCharacters) //going through all specific characters, if some is unique - program got a language
             {
                 if (char.ToLower(validChar) == char.ToLower(letter))
                 {   
